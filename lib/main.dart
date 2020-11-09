@@ -10,7 +10,11 @@ class Bytebank extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: ListaTransferencias(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Dashboard'),
+        ),
+      ),
     );
   }
 }
