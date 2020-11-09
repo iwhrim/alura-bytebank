@@ -8,9 +8,8 @@ class Bytebank extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: ListaTransferencias(),
-      ),
+      theme: ThemeData.dark(),
+      home: ListaTransferencias(),
     );
   }
 }
@@ -96,12 +95,12 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
             MaterialPageRoute(builder: (context) => FormularioTransferencia()),
           );
           future.then((transferenciaRecebida) {
-            Future.delayed(Duration(seconds: 5), () {
+            Future.delayed(Duration(seconds: 1), () {
               if (transferenciaRecebida != null) {
                 setState(() {
                   widget._transferencias.add(transferenciaRecebida);
                 });
-              }:
+              }
             });
           });
         },
