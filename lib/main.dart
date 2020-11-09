@@ -1,4 +1,4 @@
-import 'package:first_project/screens/transferencia/lista.dart';
+import 'package:first_project/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,11 +10,7 @@ class Bytebank extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Dashboard'),
-        ),
-      ),
+      home: Dashboard(),
     );
   }
 }
