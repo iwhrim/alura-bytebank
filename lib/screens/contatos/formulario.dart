@@ -1,8 +1,8 @@
+import 'package:first_project/database/app_database.dart';
 import 'package:first_project/models/Contato.dart';
 import 'package:flutter/material.dart';
 
 class ContatosFormulario extends StatefulWidget {
-
   @override
   _ContatosFormularioState createState() => _ContatosFormularioState();
 }
@@ -45,11 +45,10 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
                 width: double.maxFinite,
                 child: RaisedButton(
                   onPressed: () {
-                    final String nome = _controladorNome.text;
-                    final int numeroConta = int.tryParse(_controladorNumeroConta.text);
-                    final Contato novoContato = Contato(0, nome, numeroConta);
-                    Navigator.pop(context, novoContato);
-
+                    final String name = _controladorNome.text;
+                    final int accountNumber = int.tryParse(_controladorNumeroConta.text);
+                    final Contato newContact = Contato(0, name, accountNumber);
+                    save(newContact).then((id) => Navigator.pop(context));
                   },
                   child: Text('Salvar'),
                 ),

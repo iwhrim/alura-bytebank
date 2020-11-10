@@ -4,7 +4,12 @@ import 'package:first_project/screens/contatos/formulario.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ContatosLista extends StatelessWidget {
+class ContatosLista extends StatefulWidget {
+  @override
+  _ContatosListaState createState() => _ContatosListaState();
+}
+
+class _ContatosListaState extends State<ContatosLista> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,41 +18,52 @@ class ContatosLista extends StatelessWidget {
       ),
       body: FutureBuilder<List<Contato>>(
         initialData: List(),
-        future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
+        future: findAll(),
         builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            final List<Contato> contacts = snapshot.data;
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                final Contato contact = contacts[index];
-                return _ContatoItem(contact);
-              },
-              itemCount: contacts.length,
-            );
+          final List<Contato> contacts = snapshot.data;
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text('Carregando...')
+                  ],
+                ),
+              );
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final Contato contact = contacts[index];
+                  return _ContatoItem(contact);
+                },
+                itemCount: contacts.length,
+              );
+              break;
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-                Text('Carregando...')
-              ],
-            ),
-          );
+          return Text('Oops...something not cool happened... :(');
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
               .push(
-                MaterialPageRoute(
-                  builder: (context) => ContatosFormulario(),
-                ),
-              )
-              .then(
-                (novoContato) => debugPrint(novoContato.toString()),
-              );
+            MaterialPageRoute(
+              builder: (context) => ContatosFormulario(),
+            ),
+          )
+              .then((value) {
+            setState(() {
+              widget.createState();
+            });
+          });
         },
         child: Icon(Icons.add),
       ),
