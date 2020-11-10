@@ -47,7 +47,7 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
                   onPressed: () {
                     final String nome = _controladorNome.text;
                     final int numeroConta = int.tryParse(_controladorNumeroConta.text);
-                    final Contato novoContato = Contato(nome, numeroConta);
+                    final Contato novoContato = Contato(0, nome, numeroConta);
                     Navigator.pop(context, novoContato);
 
                   },
