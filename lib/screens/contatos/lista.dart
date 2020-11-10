@@ -1,4 +1,4 @@
-import 'package:first_project/database/app_database.dart';
+import 'package:first_project/database/dao/contato_dao.dart';
 import 'package:first_project/models/Contato.dart';
 import 'package:first_project/screens/contatos/formulario.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +10,8 @@ class ContatosLista extends StatefulWidget {
 }
 
 class _ContatosListaState extends State<ContatosLista> {
+  final ContatoDAO _dao = ContatoDAO();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class _ContatosListaState extends State<ContatosLista> {
       ),
       body: FutureBuilder<List<Contato>>(
         initialData: List(),
-        future: findAll(),
+        future: _dao.findAll(),
         builder: (context, snapshot) {
           final List<Contato> contacts = snapshot.data;
           switch (snapshot.connectionState) {
