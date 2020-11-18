@@ -16,39 +16,66 @@ class Dashboard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('images/bytebank_logo.png'),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ContatosLista(),
-                  ));
-                },
-                child: Container(
-                  padding: EdgeInsets.all(8.0),
-                  height: 90,
-                  width: 120,
-                  color: Colors.green,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.people,
-                        size: 36.0,
-                      ),
-                      Text(
-                        'Contatos',
-                        style: TextStyle(fontSize: 24.0),
-                      ),
-                    ],
-                  ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _FeatureItem(
+                  'Transfer',
+                  Icons.monetization_on,
+                  onClick: () {
+                    _showContactsList(context);
+                  },
                 ),
-              ),
+                _FeatureItem(
+                  'Transaction Feed',
+                  Icons.description,
+                  onClick: () => print('Transaction feed'),
+                ),
+              ],
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+
+  void _showContactsList(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => ContatosLista(),
+    ));
+  }
+}
+
+class _FeatureItem extends StatelessWidget {
+  final String name;
+  final IconData icon;
+  final Function onClick;
+
+  _FeatureItem(this.name, this.icon, {@required this.onClick});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Material(
+        child: InkWell(
+          onTap: () => onClick(),
+          child: Container(
+            padding: EdgeInsets.all(8.0),
+            height: 90,
+            width: 120,
+            color: Colors.green,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(icon, size: 18.0),
+                Text(name, style: TextStyle(fontSize: 12.0)),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
