@@ -1,3 +1,4 @@
+import 'package:first_project/components/progress.dart';
 import 'package:first_project/database/dao/contato_dao.dart';
 import 'package:first_project/models/Contato.dart';
 import 'package:first_project/screens/contatos/formulario.dart';
@@ -27,16 +28,7 @@ class _ContatosListaState extends State<ContatosLista> {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    Text('Carregando...')
-                  ],
-                ),
-              );
+              return Progress();
               break;
             case ConnectionState.active:
               break;

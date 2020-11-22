@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(Bytebank());
-  findAll();
+  findAll().then((value) => print(value));
 }
 
 class Bytebank extends StatelessWidget {
