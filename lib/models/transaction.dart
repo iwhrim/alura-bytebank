@@ -1,13 +1,22 @@
-import 'package:first_project/models/Contato.dart';
+import 'contact.dart';
 
 class Transaction {
   final double value;
-  final Contato contact;
+  final Contact contact;
 
   Transaction(
-      this.value,
-      this.contact,
-      );
+    this.value,
+    this.contact,
+  );
+
+  Transaction.fromJson(Map<String, dynamic> json)
+      : value = json['value'],
+        contact = Contact.fromJson(json['contact']);
+
+  Map<String, dynamic> toJson() => {
+        'value': value,
+        'contact': contact.toJson(),
+      };
 
   @override
   String toString() {

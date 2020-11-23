@@ -1,10 +1,10 @@
 import 'package:first_project/http/webclients/transaction_webclient.dart';
-import 'package:first_project/models/Contato.dart';
+import 'package:first_project/models/contact.dart';
 import 'package:first_project/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionForm extends StatefulWidget {
-  final Contato contact;
+  final Contact contact;
 
   TransactionForm(this.contact);
 
@@ -29,7 +29,7 @@ class _TransactionFormState extends State<TransactionForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                widget.contact.nome,
+                widget.contact.name,
                 style: TextStyle(
                   fontSize: 24.0,
                 ),
@@ -37,7 +37,7 @@ class _TransactionFormState extends State<TransactionForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Text(
-                  widget.contact.numeroConta.toString(),
+                  widget.contact.accountNumber.toString(),
                   style: TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,

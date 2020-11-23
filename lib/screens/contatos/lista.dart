@@ -1,17 +1,17 @@
 import 'package:first_project/components/progress.dart';
 import 'package:first_project/database/dao/contato_dao.dart';
-import 'package:first_project/models/Contato.dart';
+import 'package:first_project/models/contact.dart';
 import 'package:first_project/screens/contatos/formulario.dart';
 import 'package:first_project/screens/transaction/transaction_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ContatosLista extends StatefulWidget {
+class ContactList extends StatefulWidget {
   @override
-  _ContatosListaState createState() => _ContatosListaState();
+  _ContactListState createState() => _ContactListState();
 }
 
-class _ContatosListaState extends State<ContatosLista> {
+class _ContactListState extends State<ContactList> {
   final ContatoDAO _dao = ContatoDAO();
 
   @override
@@ -20,11 +20,11 @@ class _ContatosListaState extends State<ContatosLista> {
       appBar: AppBar(
         title: Text('Transfer'),
       ),
-      body: FutureBuilder<List<Contato>>(
+      body: FutureBuilder<List<Contact>>(
         initialData: List(),
         future: _dao.findAll(),
         builder: (context, snapshot) {
-          final List<Contato> contacts = snapshot.data;
+          final List<Contact> contacts = snapshot.data;
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
@@ -36,8 +36,8 @@ class _ContatosListaState extends State<ContatosLista> {
             case ConnectionState.done:
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final Contato contact = contacts[index];
-                  return _ContatoItem(
+                  final Contact contact = contacts[index];
+                  return _ContactItem(
                     contact,
                     onClick: () {
                       Navigator.of(context).push(
@@ -75,12 +75,12 @@ class _ContatosListaState extends State<ContatosLista> {
   }
 }
 
-class _ContatoItem extends StatelessWidget {
-  final Contato contato;
+class _ContactItem extends StatelessWidget {
+  final Contact contact;
 
   final Function onClick;
 
-  _ContatoItem(this.contato, {@required this.onClick});
+  _ContactItem(this.contact, {@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +89,11 @@ class _ContatoItem extends StatelessWidget {
       child: ListTile(
         onTap: () => onClick(),
         title: Text(
-          contato.nome,
+          contact.name,
           style: TextStyle(fontSize: 24.0),
         ),
         subtitle: Text(
-          contato.numeroConta.toString(),
+          contact.accountNumber.toString(),
           style: TextStyle(fontSize: 16.0),
         ),
       ),

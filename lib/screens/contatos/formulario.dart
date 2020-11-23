@@ -1,5 +1,5 @@
 import 'package:first_project/database/dao/contato_dao.dart';
-import 'package:first_project/models/Contato.dart';
+import 'package:first_project/models/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContatosFormulario extends StatefulWidget {
@@ -48,7 +48,7 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
                     final String name = _controladorNome.text;
                     final int accountNumber =
                         int.tryParse(_controladorNumeroConta.text);
-                    final Contato newContact = Contato(0, name, accountNumber);
+                    final Contact newContact = Contact(0, name, accountNumber);
                     _dao.save(newContact).then((id) => Navigator.pop(context));
                   },
                   child: Text('Salvar'),

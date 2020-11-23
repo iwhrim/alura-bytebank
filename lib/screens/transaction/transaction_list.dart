@@ -43,7 +43,7 @@ class TransactionsList extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          transaction.contact.numeroConta.toString(),
+                          transaction.contact.accountNumber.toString(),
                           style: TextStyle(
                             fontSize: 16.0,
                           ),

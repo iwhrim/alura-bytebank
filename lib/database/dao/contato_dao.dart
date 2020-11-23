@@ -1,5 +1,5 @@
 import 'package:first_project/database/app_database.dart';
-import 'package:first_project/models/Contato.dart';
+import 'package:first_project/models/contact.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ContatoDAO {
@@ -12,24 +12,24 @@ class ContatoDAO {
       '$_name TEXT, '
       '$_accountNumber INTEGER)';
 
-  Future<int> save(Contato contato) async {
+  Future<int> save(Contact contato) async {
     final Database db = await getDatabase();
     Map<String, dynamic> contactMap = _toMap(contato);
     return db.insert(_tableName, contactMap);
   }
 
-  Map<String, dynamic> _toMap(Contato contato) {
+  Map<String, dynamic> _toMap(Contact contato) {
     final Map<String, dynamic> contactMap = Map();
-    contactMap[_name] = contato.nome;
-    contactMap[_accountNumber] = contato.numeroConta;
+    contactMap[_name] = contato.name;
+    contactMap[_accountNumber] = contato.accountNumber;
     return contactMap;
   }
 
-  Future<List<Contato>> findAll() async {
+  Future<List<Contact>> findAll() async {
     final Database db = await getDatabase();
-    final List<Contato> contacts = List();
+    final List<Contact> contacts = List();
     for (Map<String, dynamic> row in await db.query(_tableName)) {
-      final Contato contact = Contato(
+      final Contact contact = Contact(
         row[_id],
         row[_name],
         row[_accountNumber],
