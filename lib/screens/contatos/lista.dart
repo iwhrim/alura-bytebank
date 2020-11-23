@@ -2,6 +2,7 @@ import 'package:first_project/components/progress.dart';
 import 'package:first_project/database/dao/contato_dao.dart';
 import 'package:first_project/models/Contato.dart';
 import 'package:first_project/screens/contatos/formulario.dart';
+import 'package:first_project/screens/transaction/transaction_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,16 @@ class _ContatosListaState extends State<ContatosLista> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contato contact = contacts[index];
-                  return _ContatoItem(contact);
+                  return _ContatoItem(
+                    contact,
+                    onClick: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TransactionForm(contact),
+                        ),
+                      );
+                    },
+                  );
                 },
                 itemCount: contacts.length,
               );
@@ -68,13 +78,16 @@ class _ContatosListaState extends State<ContatosLista> {
 class _ContatoItem extends StatelessWidget {
   final Contato contato;
 
-  _ContatoItem(this.contato);
+  final Function onClick;
+
+  _ContatoItem(this.contato, {@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Card(
       child: ListTile(
+        onTap: () => onClick(),
         title: Text(
           contato.nome,
           style: TextStyle(fontSize: 24.0),

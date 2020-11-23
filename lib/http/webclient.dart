@@ -9,7 +9,7 @@ import 'package:http_interceptor/http_interceptor.dart';
 final Client client =
     HttpClientWithInterceptor.build(interceptors: [LoggingInterceptor()]);
 
-const String baseURL = 'http://192.168.100.220:8080/transactions';
+const String baseURL = 'http://192.168.0.195:8080/transactions';
 
 class LoggingInterceptor implements InterceptorContract {
   @override
