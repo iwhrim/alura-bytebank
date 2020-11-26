@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:first_project/components/response_dialog.dart';
 import 'package:first_project/components/transaction_auth_dialog.dart';
 import 'package:first_project/http/webclients/transaction_webclient.dart';
 import 'package:first_project/models/contact.dart';
@@ -84,13 +87,45 @@ class _TransactionFormState extends State<TransactionForm> {
     );
   }
 
-  void _save(Transaction transactionCreated, String password, BuildContext context) {
-    _webClient.save(transactionCreated, password).then(
-      (value) {
-        if (value != null) {
-          Navigator.pop(context);
-        }
-      },
-    );
+  void _save(Transaction transactionCreated, String password,
+      BuildContext context) async {
+    Transaction transaction =
+        await _send(transactionCreated, password, context);
+
+    _showSuccessfulMessage(transaction, context);
+  }
+
+  Future<Transaction> _send(Transaction transactionCreated, String password,
+      BuildContext context) async {
+    final Transaction transaction =
+        await _webClient.save(transactionCreated, password).catchError((e) {
+      _showFailureMessage(context,
+          message: 'Timed out when trying to transfer');
+    }, test: (e) => e is TimeoutException).catchError((e) {
+      _showFailureMessage(context, message: e.message);
+    }, test: (e) => e is HttpException).catchError((e) {
+      _showFailureMessage(context);
+    }, test: (e) => e is Exception);
+    return transaction;
+  }
+
+  void _showFailureMessage(BuildContext context,
+      {String message = 'Unknown message'}) {
+    showDialog(
+        context: context,
+        builder: (contextDialog) {
+          return FailureDialog(message);
+        });
+  }
+
+  Future _showSuccessfulMessage(Transaction transaction, BuildContext context) async {
+    if (transaction != null) {
+      await showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return SuccessDialog('successful transaction');
+          });
+      Navigator.pop(context);
+    }
   }
 }
