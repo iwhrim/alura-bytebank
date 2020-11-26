@@ -1,5 +1,6 @@
 import 'package:first_project/screens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import 'components/transaction_auth_dialog.dart';
 
