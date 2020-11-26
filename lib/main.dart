@@ -1,4 +1,4 @@
-import 'package:first_project/screens/dashboard.dart';
+import 'package:first_project/screens/counter.dart';
 import 'package:flutter/material.dart';
 import 'components/bytebank_theme.dart';
 
@@ -11,7 +11,7 @@ class Bytebank extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: bytebankTheme,
-      home: Dashboard(),
+      home: CounterPage(),
     );
   }
 }
