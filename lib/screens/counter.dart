@@ -27,7 +27,7 @@ class CounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contador'),
+        title: const Text('Counter'),
       ),
       body: BlocBuilder<CounterCubit, int>(
         builder: (context, count) => Center(child: Text('$count')),
