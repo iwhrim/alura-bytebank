@@ -1,8 +1,8 @@
 import 'package:first_project/components/progress.dart';
-import 'package:first_project/database/dao/contato_dao.dart';
 import 'package:first_project/models/contact.dart';
 import 'package:first_project/screens/contatos/formulario.dart';
 import 'package:first_project/screens/transaction/transaction_form.dart';
+import 'package:first_project/widgets/app_dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,17 +12,17 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  final ContatoDAO _dao = ContatoDAO();
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Transfer'),
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: List(),
-        future: _dao.findAll(),
+        future: dependencies.contatoDAO.findAll(),
         builder: (context, snapshot) {
           final List<Contact> contacts = snapshot.data;
           switch (snapshot.connectionState) {
@@ -37,7 +37,7 @@ class _ContactListState extends State<ContactList> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contact contact = contacts[index];
-                  return _ContactItem(
+                  return ContactItem(
                     contact,
                     onClick: () {
                       Navigator.of(context).push(
@@ -75,12 +75,12 @@ class _ContactListState extends State<ContactList> {
   }
 }
 
-class _ContactItem extends StatelessWidget {
+class ContactItem extends StatelessWidget {
   final Contact contact;
 
   final Function onClick;
 
-  _ContactItem(this.contact, {@required this.onClick});
+  ContactItem(this.contact, {@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
