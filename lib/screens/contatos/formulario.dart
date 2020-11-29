@@ -1,12 +1,9 @@
 import 'package:first_project/database/dao/contato_dao.dart';
 import 'package:first_project/models/contact.dart';
+import 'package:first_project/widgets/app_dependencies.dart';
 import 'package:flutter/material.dart';
 
 class ContatosFormulario extends StatefulWidget {
-
-  final ContatoDAO contatoDAO;
-
-  ContatosFormulario({@required this.contatoDAO});
 
   @override
   _ContatosFormularioState createState() => _ContatosFormularioState();
@@ -18,6 +15,7 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Novo contato'),
@@ -53,7 +51,7 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
                     final int accountNumber =
                         int.tryParse(_controladorNumeroConta.text);
                     final Contact newContact = Contact(0, name, accountNumber);
-                    _save(newContact, context);
+                    _save(dependencies.contatoDAO, newContact, context);
                   },
                   child: Text('Salvar'),
                 ),
@@ -65,8 +63,8 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
     );
   }
 
-  void _save(Contact newContact, BuildContext context) async {
-    await widget.contatoDAO.save(newContact);
+  void _save(ContatoDAO contatoDAO, Contact newContact, BuildContext context) async {
+    await contatoDAO.save(newContact);
     Navigator.pop(context);
   }
 }

@@ -1,3 +1,5 @@
+import 'package:first_project/database/dao/contato_dao.dart';
+import 'package:first_project/http/webclients/transaction_webclient.dart';
 import 'package:first_project/main.dart';
 import 'package:first_project/models/contact.dart';
 import 'package:first_project/screens/contatos/formulario.dart';
@@ -7,28 +9,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'matchers.dart';
-import 'mocks.dart';
+import '../matchers/matchers.dart';
+import '../mocks/mocks.dart';
+import 'actions.dart';
 
 void main() {
-
   const String FULLNAME = 'Gnome';
-  const int ACCOUNT_NUMBER = 123456;
+  const int ACCOUNT_NUMBER = 99;
 
   testWidgets('Should save a contact', (tester) async {
     final mockContatoDao = MockContatoDao();
     await tester.pumpWidget(Bytebank(
-      contatoDAO: mockContatoDao,
+      transactionWebClient: TransactionWebClient(),
+      contatoDAO: ContatoDAO(),
     ));
 
     final dashboard = find.byType(Dashboard);
     expect(dashboard, findsOneWidget);
 
-    final transferFeatureItem = find.byWidgetPredicate((widget) =>
-        featureItemMatcher(widget, 'Transfer', Icons.monetization_on));
-    expect(transferFeatureItem, findsOneWidget);
-
-    await tester.tap(transferFeatureItem);
+    await clickOnTransferFeatureItem(tester);
     await tester.pumpAndSettle();
 
     final contactsList = find.byType(ContactList);
@@ -45,13 +44,13 @@ void main() {
     final contactForm = find.byType(ContatosFormulario);
     expect(contactForm, findsOneWidget);
 
-    final nameTextField =
-        find.byWidgetPredicate((widget) => textFieldMatcher(widget,'Nome completo'));
+    final nameTextField = find.byWidgetPredicate(
+        (widget) => textFieldByLabelTextMatcher(widget, 'Nome completo'));
     expect(nameTextField, findsOneWidget);
     await tester.enterText(nameTextField, FULLNAME);
 
     final accountNumberTextField = find.byWidgetPredicate(
-        (widget) => textFieldMatcher(widget, 'Numero da conta'));
+        (widget) => textFieldByLabelTextMatcher(widget, 'Numero da conta'));
     expect(accountNumberTextField, findsOneWidget);
     await tester.enterText(accountNumberTextField, ACCOUNT_NUMBER.toString());
 
@@ -67,5 +66,3 @@ void main() {
     verify(mockContatoDao.findAll());
   });
 }
-
-
