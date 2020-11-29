@@ -3,6 +3,11 @@ import 'package:first_project/models/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContatosFormulario extends StatefulWidget {
+
+  final ContatoDAO contatoDAO;
+
+  ContatosFormulario({@required this.contatoDAO});
+
   @override
   _ContatosFormularioState createState() => _ContatosFormularioState();
 }
@@ -10,7 +15,6 @@ class ContatosFormulario extends StatefulWidget {
 class _ContatosFormularioState extends State<ContatosFormulario> {
   final TextEditingController _controladorNome = TextEditingController();
   final TextEditingController _controladorNumeroConta = TextEditingController();
-  final ContatoDAO _dao = ContatoDAO();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
                     final int accountNumber =
                         int.tryParse(_controladorNumeroConta.text);
                     final Contact newContact = Contact(0, name, accountNumber);
-                    _dao.save(newContact).then((id) => Navigator.pop(context));
+                    _save(newContact, context);
                   },
                   child: Text('Salvar'),
                 ),
@@ -59,5 +63,10 @@ class _ContatosFormularioState extends State<ContatosFormulario> {
         ),
       ),
     );
+  }
+
+  void _save(Contact newContact, BuildContext context) async {
+    await widget.contatoDAO.save(newContact);
+    Navigator.pop(context);
   }
 }
